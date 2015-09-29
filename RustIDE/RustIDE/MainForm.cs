@@ -43,7 +43,17 @@ namespace RustIDE
             var textbox = new FastColoredTextBox() { Dock = DockStyle.Fill };
             p.Controls.Add(textbox);
             textbox.TextChanged += Textbox_TextChanged;
+            textbox.KeyDown += Textbox_KeyDown;
             materialTabControl1.TabPages.Add(p);
+        }
+
+        private void Textbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            var fastColoredTextBox1 = sender as FastColoredTextBox;
+            if(e.KeyCode == Keys.S && e.Modifiers == Keys.Control)
+            {
+                File.WriteAllText((fastColoredTextBox1.Parent as TabPage).Name, fastColoredTextBox1.Text);
+            }
         }
 
         Style GreenStyle = new TextStyle(Brushes.Green, null, FontStyle.Regular);
@@ -154,6 +164,7 @@ namespace RustIDE
                         {
                             var textbox = x as FastColoredTextBox;
                             textbox.OpenFile(path);
+                            i.Name = path;
                             break;
                         }
                     }
