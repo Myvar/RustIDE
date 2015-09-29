@@ -97,7 +97,7 @@ namespace RustIDE
         public void StartDebug()
         {
             CargoApi.Build(Globals.CurrentProject);
-            var toml = File.ReadAllText(Path.Combine(Globals.CurrentProject, "Cargo.toml")).Replace("[bin]","brackbinbrack").ParseAsToml();
+            var toml = File.ReadAllText(Path.Combine(Globals.CurrentProject, "Cargo.toml")).Replace("[bin]","brackbinbrack").Replace("[[", "doublebrakopen").Replace("]]", "doublebrakclose").ParseAsToml();
             string exe = Path.Combine(Globals.CurrentProject, "target", "debug", toml.brackbinbrack.name + ".exe");
             Cmd.RunCmd(exe + "&pause");
         }
