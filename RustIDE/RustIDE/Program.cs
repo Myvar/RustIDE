@@ -6,17 +6,19 @@ using System.Windows.Forms;
 
 namespace RustIDE
 {
-    static class Program
+    public static class Program
     {
+        public static MainForm f { get; set; }
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        public static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            f = new MainForm();
+            Application.Run(f);
         }
     }
 }
