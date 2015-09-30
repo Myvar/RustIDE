@@ -13,3 +13,5 @@ A Rust lang IDE, its that simple
 # ToDO
 - add git integration (not inportant)
 - finish syntax hilighting (very inportant)
+
+#Instalation Download  [rust](https://www.rust-lang.org) and install it, _ make sure that you added the bin folder of rust to the path _, download the latesd release or download and compile the source, run the RustIDE.exe and thats is your done.
