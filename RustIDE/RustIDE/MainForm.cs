@@ -2,7 +2,9 @@
 using MaterialSkin;
 using MaterialSkin.Controls;
 using RustIDE.Internal;
+using RustIDE.Internal.Crates;
 using RustIDE.Internal.Dlgs;
+using RustIDE.Internal.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,6 +36,7 @@ namespace RustIDE
             Globals.Load();
             materialTabControl1.TabPages.Clear();
             AddEditorTab("");
+            
         }
 
 
@@ -96,9 +99,36 @@ namespace RustIDE
 
         public void StartDebug()
         {
+            var toml = File.ReadAllText(Path.Combine(Globals.CurrentProject, "Cargo.toml"));
+            bool founddep = false;
+            string exename = "";
+            foreach (var i in toml.Replace("\r\n", "\n").Split('\n'))
+            {
+
+                if (founddep)
+                {
+                    if (!string.IsNullOrEmpty(i))
+                    {
+                        if(i.Split('=')[0].Trim() == "name")
+                        {
+                            exename = i.Split('=')[1].Trim().Trim('"');
+                            break;
+                        }
+                    }
+                }
+                if (i.Trim() == "[package]")
+                {
+                    founddep = true;
+                }
+            }
+
+            foreach(TabPage i in materialTabControl1.TabPages)
+            {
+                File.WriteAllText(i.Name, (i.Controls[0] as FastColoredTextBox).Text);
+            }
+
             CargoApi.Build(Globals.CurrentProject);
-            var toml = File.ReadAllText(Path.Combine(Globals.CurrentProject, "Cargo.toml")).Replace("[bin]","brackbinbrack").Replace("[[", "doublebrakopen").Replace("]]", "doublebrakclose").ParseAsToml();
-            string exe = Path.Combine(Globals.CurrentProject, "target", "debug", toml.brackbinbrack.name + ".exe");
+            string exe = Path.Combine(Globals.CurrentProject, "target", "debug", exename + ".exe");
             Cmd.RunCmd(exe + "&pause");
         }
 
@@ -144,8 +174,20 @@ namespace RustIDE
                 }
                 Globals.TreeViewLoaded = true;
             }
-
+          
             richTextBox1.Text = Cmd.buffer;
+            richTextBox1.Select(richTextBox1.Text.Length, 0);
+
+            if(Globals.CurrentProject == "")
+            {
+                materialFlatButton3.Enabled = false;
+                materialFlatButton4.Enabled = false;
+            }
+            else
+            {
+                materialFlatButton3.Enabled = true;
+                materialFlatButton4.Enabled = true;
+            }
         }
 
         public void LoadEditor(string path)
@@ -185,13 +227,8 @@ namespace RustIDE
 
         private void materialFlatButton1_Click(object sender, EventArgs e)
         {
-            var dlg1 = new FolderBrowserDialogEx();
-            dlg1.Description = "Select a folder to extract to:";
-            dlg1.ShowNewFolderButton = true;
-            dlg1.ShowEditBox = true;
-            //dlg1.NewStyle = false;
-           
-            dlg1.ShowFullPathInEditBox = true;
+            var dlg1 = new FolderBrowserDialog();
+        
             dlg1.RootFolder = System.Environment.SpecialFolder.MyComputer;
 
             // Show the FolderBrowserDialog.
@@ -210,10 +247,19 @@ namespace RustIDE
             if(File.Exists(file))
             {
                 LoadEditor(file);
-            }
+            }          
+        }
 
-            
-           
+        private void materialFlatButton2_Click(object sender, EventArgs e)
+        {
+            NewProjectDialog dlg = new NewProjectDialog();
+            dlg.ShowDialog();
+        }
+
+        private void materialFlatButton4_Click(object sender, EventArgs e)
+        {
+            CrateIoFrm frm = new CrateIoFrm();
+            frm.ShowDialog();
         }
     }
 }

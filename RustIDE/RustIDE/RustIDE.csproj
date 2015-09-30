@@ -70,8 +70,21 @@
     <Compile Include="Internal\CargoApi.cs" />
     <Compile Include="Internal\Cmd.cs" />
     <Compile Include="Internal\Config.cs" />
-    <Compile Include="Internal\Dlgs\FolderBrowserDialogEx.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Internal\Crates\CratesIO.cs" />
+    <Compile Include="Internal\Crates\Create.cs" />
+    <Compile Include="Internal\Crates\SearchResult.cs" />
+    <Compile Include="Internal\Crates\Summary.cs" />
+    <Compile Include="Internal\Dlgs\NewProjectDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Internal\Dlgs\NewProjectDialog.Designer.cs">
+      <DependentUpon>NewProjectDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Internal\Forms\CrateIoFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Internal\Forms\CrateIoFrm.Designer.cs">
+      <DependentUpon>CrateIoFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -81,6 +94,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Internal\Dlgs\NewProjectDialog.resx">
+      <DependentUpon>NewProjectDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Internal\Forms\CrateIoFrm.resx">
+      <DependentUpon>CrateIoFrm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

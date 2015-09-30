@@ -38,6 +38,7 @@
             this.materialFlatButton2 = new MaterialSkin.Controls.MaterialFlatButton();
             this.TreeViewUpdater = new System.Windows.Forms.Timer(this.components);
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.materialFlatButton4 = new MaterialSkin.Controls.MaterialFlatButton();
             this.materialTabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -134,6 +135,7 @@
             this.materialFlatButton2.TabIndex = 2;
             this.materialFlatButton2.Text = "New";
             this.materialFlatButton2.UseVisualStyleBackColor = true;
+            this.materialFlatButton2.Click += new System.EventHandler(this.materialFlatButton2_Click);
             // 
             // TreeViewUpdater
             // 
@@ -150,11 +152,28 @@
             this.richTextBox1.TabIndex = 5;
             this.richTextBox1.Text = "";
             // 
+            // materialFlatButton4
+            // 
+            this.materialFlatButton4.AutoSize = true;
+            this.materialFlatButton4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.materialFlatButton4.Depth = 0;
+            this.materialFlatButton4.Location = new System.Drawing.Point(1037, 64);
+            this.materialFlatButton4.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.materialFlatButton4.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialFlatButton4.Name = "materialFlatButton4";
+            this.materialFlatButton4.Primary = false;
+            this.materialFlatButton4.Size = new System.Drawing.Size(80, 36);
+            this.materialFlatButton4.TabIndex = 6;
+            this.materialFlatButton4.Text = "Crates.io";
+            this.materialFlatButton4.UseVisualStyleBackColor = true;
+            this.materialFlatButton4.Click += new System.EventHandler(this.materialFlatButton4_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1117, 675);
+            this.Controls.Add(this.materialFlatButton4);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.materialTabControl1);
@@ -183,6 +202,7 @@
         private MaterialSkin.Controls.MaterialFlatButton materialFlatButton2;
         private System.Windows.Forms.RichTextBox richTextBox1;
         public System.Windows.Forms.Timer TreeViewUpdater;
+        private MaterialSkin.Controls.MaterialFlatButton materialFlatButton4;
     }
 }
 
