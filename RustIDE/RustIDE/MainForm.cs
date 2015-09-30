@@ -1,6 +1,7 @@
 ﻿using FastColoredTextBoxNS;
 using MaterialSkin;
 using MaterialSkin.Controls;
+using OsDevKit.UI.Dialogs;
 using RustIDE.Internal;
 using RustIDE.Internal.Crates;
 using RustIDE.Internal.Dlgs;
@@ -36,7 +37,7 @@ namespace RustIDE
             Globals.Load();
             materialTabControl1.TabPages.Clear();
             AddEditorTab("");
-            
+
         }
 
 
@@ -53,7 +54,7 @@ namespace RustIDE
         private void Textbox_KeyDown(object sender, KeyEventArgs e)
         {
             var fastColoredTextBox1 = sender as FastColoredTextBox;
-            if(e.KeyCode == Keys.S && e.Modifiers == Keys.Control)
+            if (e.KeyCode == Keys.S && e.Modifiers == Keys.Control)
             {
                 File.WriteAllText((fastColoredTextBox1.Parent as TabPage).Name, fastColoredTextBox1.Text);
             }
@@ -109,7 +110,7 @@ namespace RustIDE
                 {
                     if (!string.IsNullOrEmpty(i))
                     {
-                        if(i.Split('=')[0].Trim() == "name")
+                        if (i.Split('=')[0].Trim() == "name")
                         {
                             exename = i.Split('=')[1].Trim().Trim('"');
                             break;
@@ -122,7 +123,7 @@ namespace RustIDE
                 }
             }
 
-            foreach(TabPage i in materialTabControl1.TabPages)
+            foreach (TabPage i in materialTabControl1.TabPages)
             {
                 File.WriteAllText(i.Name, (i.Controls[0] as FastColoredTextBox).Text);
             }
@@ -143,9 +144,11 @@ namespace RustIDE
         {
             var directoryNode = new TreeNode(directoryInfo.Name);
             foreach (var directory in directoryInfo.GetDirectories())
-                directoryNode.Nodes.Add(CreateDirectoryNode(directory));
+                if (!directory.Name.Contains("."))
+                    directoryNode.Nodes.Add(CreateDirectoryNode(directory));
             foreach (var file in directoryInfo.GetFiles())
-                directoryNode.Nodes.Add(new TreeNode(file.Name));
+                if(!file.Name.StartsWith("."))
+                    directoryNode.Nodes.Add(new TreeNode(file.Name));
             return directoryNode;
         }
 
@@ -167,18 +170,19 @@ namespace RustIDE
                 if (!string.IsNullOrEmpty(Globals.CurrentProject))
                 {
                     treeView1.Nodes.Clear();
-                    foreach(TreeNode i in CreateDirectoryNode(new DirectoryInfo(Globals.CurrentProject)).Nodes)
+                    foreach (TreeNode i in CreateDirectoryNode(new DirectoryInfo(Globals.CurrentProject)).Nodes)
                     {
                         treeView1.Nodes.Add(i);
                     }
                 }
                 Globals.TreeViewLoaded = true;
+                treeView1.ExpandAll();
             }
-          
+
             richTextBox1.Text = Cmd.buffer;
             richTextBox1.Select(richTextBox1.Text.Length, 0);
 
-            if(Globals.CurrentProject == "")
+            if (Globals.CurrentProject == "")
             {
                 materialFlatButton3.Enabled = false;
                 materialFlatButton4.Enabled = false;
@@ -212,13 +216,13 @@ namespace RustIDE
                     }
                     break;
                 }
-                if(i.Text == "")
+                if (i.Text == "")
                 {
                     materialTabControl1.TabPages.Remove(i);
                 }
             }
 
-            if(!FoundPage)
+            if (!FoundPage)
             {
                 AddEditorTab(file.Name);
                 LoadEditor(path);
@@ -228,7 +232,7 @@ namespace RustIDE
         private void materialFlatButton1_Click(object sender, EventArgs e)
         {
             var dlg1 = new FolderBrowserDialog();
-        
+
             dlg1.RootFolder = System.Environment.SpecialFolder.MyComputer;
 
             // Show the FolderBrowserDialog.
@@ -244,10 +248,10 @@ namespace RustIDE
         private void treeView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             string file = Path.Combine(Globals.CurrentProject, treeView1.SelectedNode.FullPath);
-            if(File.Exists(file))
+            if (File.Exists(file))
             {
                 LoadEditor(file);
-            }          
+            }
         }
 
         private void materialFlatButton2_Click(object sender, EventArgs e)
@@ -260,6 +264,71 @@ namespace RustIDE
         {
             CrateIoFrm frm = new CrateIoFrm();
             frm.ShowDialog();
+        }
+
+        private void treeView1_MouseDown(object sender, MouseEventArgs e)
+        {
+
+            if (e.Button.Equals(MouseButtons.Right))
+            {
+                treeView1.SelectedNode = treeView1.GetNodeAt(e.X, e.Y);
+                contextMenuStrip1.Show(MousePosition);
+            }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode != null)
+            {
+                string path = Path.Combine(Globals.CurrentProject, treeView1.SelectedNode.FullPath);
+                var dlg = new AskDlg();
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    if (Directory.Exists(path))
+                    {
+
+
+                        if (!dlg.Awnser.Contains("."))
+                        {
+                            Directory.CreateDirectory(Path.Combine(path, dlg.Awnser));
+                            Globals.TreeViewLoaded = false;
+                            return;
+                        }
+
+
+
+
+                        if (dlg.Awnser.Contains("."))
+                        {
+                            var p = Path.Combine(path, dlg.Awnser);
+                            File.WriteAllText(p, " ");
+                            Globals.TreeViewLoaded = false;
+                            return;
+                        }
+                    }
+
+                }
+            }
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode != null)
+            {
+                string path = Path.Combine(Globals.CurrentProject, treeView1.SelectedNode.FullPath);
+                if (Directory.Exists(path))
+                {
+                    Directory.Delete(path, true);
+                    Globals.TreeViewLoaded = false;
+                    return;
+                }
+                File.Delete(path);
+                Globals.TreeViewLoaded = false;
+                return;
+
+
+            }
+
         }
     }
 }

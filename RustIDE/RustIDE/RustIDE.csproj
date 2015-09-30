@@ -74,6 +74,12 @@
     <Compile Include="Internal\Crates\Create.cs" />
     <Compile Include="Internal\Crates\SearchResult.cs" />
     <Compile Include="Internal\Crates\Summary.cs" />
+    <Compile Include="Internal\Dlgs\AskDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Internal\Dlgs\AskDlg.Designer.cs">
+      <DependentUpon>AskDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="Internal\Dlgs\NewProjectDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +100,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Internal\Dlgs\AskDlg.resx">
+      <DependentUpon>AskDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Internal\Dlgs\NewProjectDialog.resx">
       <DependentUpon>NewProjectDialog.cs</DependentUpon>
     </EmbeddedResource>
