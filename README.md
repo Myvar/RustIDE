@@ -1,17 +1,18 @@
 # RustIDE
-A Rust lang IDE, its that simple
+A Rust lang IDE, it's that simple.
 
 # Fetures
-- Project managments(build on cargo)
-- Syntax hilighting
-- Debug (limited for now, includes building, and run)
-- creates.io support (like nuget, but for rust)
+- Project management(build on cargo)
+- Syntax highlighting
+- Debug (limited for now, includes building, and running)
+- crates.io support (like NuGet, but for Rust)
 
-# Screen Shots
+# Screenshots
 ![](https://github.com/Myvar/RustIDE/blob/master/ScreenShots/Debug.PNG)<br>![](https://github.com/Myvar/RustIDE/blob/master/ScreenShots/Creates.PNG)
 
 # ToDO
-- add git integration (not inportant)
-- finish syntax hilighting (very inportant)
+- Finish syntax highlighting (High priority)
+- Add git integration (Low priority)
 
-#Instalation Download  [rust](https://www.rust-lang.org) and install it, _ make sure that you added the bin folder of rust to the path _, download the latesd release or download and compile the source, run the RustIDE.exe and thats is your done.
+#Installation
+Download and install  [Rust](https://www.rust-lang.org), _ make sure you add the bin folder of Rust to the your system environment path, download and compile the latest version of RustIDE using a .NET Compiler or download the latest release. Done? Start RustIDE.exe and start coding!
