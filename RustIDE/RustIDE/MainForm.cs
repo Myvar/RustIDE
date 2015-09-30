@@ -144,7 +144,7 @@ namespace RustIDE
         {
             var directoryNode = new TreeNode(directoryInfo.Name);
             foreach (var directory in directoryInfo.GetDirectories())
-                if (!directory.Name.Contains("."))
+                if (!directory.Name.Contains(".") && directory.Name != "target")
                     directoryNode.Nodes.Add(CreateDirectoryNode(directory));
             foreach (var file in directoryInfo.GetFiles())
                 if(!file.Name.StartsWith("."))
