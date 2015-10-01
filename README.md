@@ -2,7 +2,7 @@
 A Rust lang IDE, it's that simple.
 
 # Fetures
-- Project management(builded on top of cargo)
+- Project management(built on top of Cargo)
 - Syntax highlighting
 - Debug (limited for now, includes building, and running)
 - crates.io support (like NuGet, but for Rust)
